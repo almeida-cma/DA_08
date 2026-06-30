@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade - Completar Código | Construtores em Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            border-left: 5px solid #6a11cb;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #4a0e8a;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #6a11cb;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #6a11cb;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 12px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block .lacuna {
+            display: inline-block;
+            background: #2d2d3a;
+            color: #6a11cb;
+            padding: 0 8px;
+            border-radius: 4px;
+            border: 1px dashed #6a11cb;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .code-block .lacuna-input {
+            background: #2d2d3a;
+            color: #6a11cb;
+            border: 1px dashed #6a11cb;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            min-width: 100px;
+            text-align: center;
+            outline: none;
+        }
+
+        .code-block .lacuna-input:focus {
+            border-color: #2575fc;
+            background: #1e1e2e;
+        }
+
+        .code-block .lacuna-input.correct {
+            border-color: #28a745;
+            background: #1a3a2a;
+            color: #28a745;
+        }
+
+        .code-block .lacuna-input.wrong {
+            border-color: #dc3545;
+            background: #3a1a1a;
+            color: #dc3545;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #4a0e8a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+            color: white;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(106,17,203,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #6a11cb;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+
+        .feedback-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #6a11cb;
+        }
+
+        .triade-box {
+            background: #f3e8ff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border: 2px solid #6a11cb;
+        }
+
+        .triade-box strong {
+            color: #4a0e8a;
+        }
+
+        .gabarito-oculto {
+            display: none;
+        }
+
+        .gabarito-oculto.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🧪 Atividade - Completar Código</h1>
+        <p>Construtores em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 4 desafios</span>
+            <span class="badge">⏱️ ~20 minutos</span>
+            <span class="badge">🎯 Default | Parametrizado | Sobrecarga | this()</span>
+        </div>
+    </div>
+
+    <!-- Navegação -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="d1">📌 CONSTRUTOR DEFAULT</button>
+        <button class="tab-link" data-tab="d2">📌 CONSTRUTOR PARAMETRIZADO</button>
+        <button class="tab-link" data-tab="d3">📌 SOBRECARGA</button>
+        <button class="tab-link" data-tab="d4">📌 THIS()</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: CONSTRUTOR DEFAULT -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>📌 Construtor Default (Padrão)</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> Construtor sem parâmetros, criado automaticamente pelo Java.<br>
+                <strong>🎯 OBJETIVO:</strong> Inicializar atributos com valores padrão.<br>
+                <strong>⚡ MÉTODO:</strong> <code>public NomeClasse() { }</code>
+            </div>
+
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas para criar um construtor default
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d1')">📋 Copiar código base</button>
+                <pre id="code-d1"><code>package tema08;
+
+public class DesafioDefault {
+    String nome;
+    int idade;
+
+    // CONSTRUTOR DEFAULT
+    public <span class="lacuna"><input type="text" class="lacuna-input" id="d1_1" placeholder="???"></span>() {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d1_2" placeholder="???"></span>.nome = "Desconhecido";
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d1_3" placeholder="???"></span>.idade = 0;
+    }
+
+    public void exibirDados() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+    }
+
+    public static void main(String[] args) {
+        DesafioDefault obj = <span class="lacuna"><input type="text" class="lacuna-input" id="d1_4" placeholder="???"></span> DesafioDefault();
+        obj.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="corrigirD1()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD1()">🔄 Limpar</button>
+            </div>
+
+            <div class="result-box" id="resultado-d1">
+                <h2>📊 Resultado - Desafio 1</h2>
+                <div class="score" id="pontuacao-d1">0/4</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d1"></div>
+                <div class="gabarito-oculto" id="gabarito-d1">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1:</strong> DesafioDefault</li>
+                            <li><strong>2:</strong> this</li>
+                            <li><strong>3:</strong> this</li>
+                            <li><strong>4:</strong> new</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: CONSTRUTOR PARAMETRIZADO -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>📌 Construtor Parametrizado</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> Construtor que recebe parâmetros para inicializar atributos.<br>
+                <strong>🎯 OBJETIVO:</strong> Criar objetos com valores personalizados.<br>
+                <strong>⚡ MÉTODO:</strong> <code>public NomeClasse(tipo param) { this.atributo = param; }</code>
+            </div>
+
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas para criar um construtor parametrizado
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d2')">📋 Copiar código base</button>
+                <pre id="code-d2"><code>package tema08;
+
+public class DesafioParametrizado {
+    String modelo;
+    int ano;
+
+    // CONSTRUTOR PARAMETRIZADO
+    public <span class="lacuna"><input type="text" class="lacuna-input" id="d2_1" placeholder="???"></span>(String modelo, int ano) {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d2_2" placeholder="???"></span>.modelo = modelo;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d2_3" placeholder="???"></span>.ano = ano;
+    }
+
+    public void exibirInfo() {
+        System.out.println("Modelo: " + modelo);
+        System.out.println("Ano: " + ano);
+    }
+
+    public static void main(String[] args) {
+        DesafioParametrizado obj = <span class="lacuna"><input type="text" class="lacuna-input" id="d2_4" placeholder="???"></span> DesafioParametrizado("Fusca", 1970);
+        obj.exibirInfo();
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="corrigirD2()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD2()">🔄 Limpar</button>
+            </div>
+
+            <div class="result-box" id="resultado-d2">
+                <h2>📊 Resultado - Desafio 2</h2>
+                <div class="score" id="pontuacao-d2">0/4</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d2"></div>
+                <div class="gabarito-oculto" id="gabarito-d2">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1:</strong> DesafioParametrizado</li>
+                            <li><strong>2:</strong> this</li>
+                            <li><strong>3:</strong> this</li>
+                            <li><strong>4:</strong> new</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 3: SOBRECARGA DE CONSTRUTORES -->
+    <!-- ============================================================ -->
+    <div id="d3" class="tab-content">
+        <div class="card">
+            <h2>📌 Sobrecarga de Construtores</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> Vários construtores com diferentes parâmetros.<br>
+                <strong>🎯 OBJETIVO:</strong> Oferecer diferentes formas de criar objetos.<br>
+                <strong>⚡ MÉTODO:</strong> Múltiplos construtores com assinaturas diferentes.
+            </div>
+
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas para criar sobrecarga de construtores
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d3')">📋 Copiar código base</button>
+                <pre id="code-d3"><code>package tema08;
+
+public class DesafioSobrecarga {
+    String produto;
+    double preco;
+    int quantidade;
+
+    // CONSTRUTOR 1: default
+    public <span class="lacuna"><input type="text" class="lacuna-input" id="d3_1" placeholder="???"></span>() {
+        this.produto = "Nao informado";
+        this.preco = 0.0;
+        this.quantidade = 0;
+    }
+
+    // CONSTRUTOR 2: com produto e preco
+    public <span class="lacuna"><input type="text" class="lacuna-input" id="d3_2" placeholder="???"></span>(String produto, double preco) {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d3_3" placeholder="???"></span>.produto = produto;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d3_4" placeholder="???"></span>.preco = preco;
+        this.quantidade = 0;
+    }
+
+    // CONSTRUTOR 3: com produto, preco e quantidade
+    public DesafioSobrecarga(String produto, double preco, int quantidade) {
+        this.produto = produto;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d3_5" placeholder="???"></span>.preco = preco;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d3_6" placeholder="???"></span>.quantidade = quantidade;
+    }
+
+    public void exibirInfo() {
+        System.out.println("Produto: " + produto);
+        System.out.println("Preco: R$ " + preco);
+        System.out.println("Quantidade: " + quantidade);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("--- CONSTRUTOR 1 (default) ---");
+        DesafioSobrecarga p1 = new DesafioSobrecarga();
+        p1.exibirInfo();
+
+        System.out.println("\n--- CONSTRUTOR 2 (produto e preco) ---");
+        DesafioSobrecarga p2 = <span class="lacuna"><input type="text" class="lacuna-input" id="d3_7" placeholder="???"></span> DesafioSobrecarga("Mouse", 50.0);
+        p2.exibirInfo();
+
+        System.out.println("\n--- CONSTRUTOR 3 (produto, preco e quantidade) ---");
+        DesafioSobrecarga p3 = new DesafioSobrecarga("Teclado", 100.0, 5);
+        p3.<span class="lacuna"><input type="text" class="lacuna-input" id="d3_8" placeholder="???"></span>();
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="corrigirD3()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD3()">🔄 Limpar</button>
+            </div>
+
+            <div class="result-box" id="resultado-d3">
+                <h2>📊 Resultado - Desafio 3</h2>
+                <div class="score" id="pontuacao-d3">0/8</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d3"></div>
+                <div class="gabarito-oculto" id="gabarito-d3">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1:</strong> DesafioSobrecarga</li>
+                            <li><strong>2:</strong> DesafioSobrecarga</li>
+                            <li><strong>3:</strong> this</li>
+                            <li><strong>4:</strong> this</li>
+                            <li><strong>5:</strong> this</li>
+                            <li><strong>6:</strong> this</li>
+                            <li><strong>7:</strong> new</li>
+                            <li><strong>8:</strong> exibirInfo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 4: THIS() -->
+    <!-- ============================================================ -->
+    <div id="d4" class="tab-content">
+        <div class="card">
+            <h2>📌 this() para chamar outro construtor</h2>
+
+            <div class="triade-box">
+                <strong>📚 CONCEITO:</strong> <code>this()</code> chama outro construtor da mesma classe.<br>
+                <strong>🎯 OBJETIVO:</strong> Reaproveitar código entre construtores.<br>
+                <strong>⚡ MÉTODO:</strong> <code>this(parametros);</code> deve ser a primeira linha.
+            </div>
+
+            <div class="step">
+                <span class="step-number">📌</span> Complete as lacunas para usar <code>this()</code> entre construtores
+            </div>
+
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d4')">📋 Copiar código base</button>
+                <pre id="code-d4"><code>package tema08;
+
+public class DesafioThis {
+    String nome;
+    int idade;
+    String cidade;
+
+    // CONSTRUTOR PRINCIPAL (com todos os parâmetros)
+    public DesafioThis(String nome, int idade, String cidade) {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d4_1" placeholder="???"></span>.nome = nome;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d4_2" placeholder="???"></span>.idade = idade;
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d4_3" placeholder="???"></span>.cidade = cidade;
+    }
+
+    // CONSTRUTOR com nome e idade (chama o principal com cidade padrão)
+    public DesafioThis(String nome, int idade) {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d4_4" placeholder="???"></span>(nome, idade, "Nao informada");
+    }
+
+    // CONSTRUTOR só com nome (chama o principal com idade e cidade padrão)
+    public DesafioThis(String nome) {
+        <span class="lacuna"><input type="text" class="lacuna-input" id="d4_5" placeholder="???"></span>(nome, 0, "Nao informada");
+    }
+
+    public void exibirDados() {
+        System.out.println("Nome: " + nome);
+        System.out.println("Idade: " + idade);
+        System.out.println("Cidade: " + cidade);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("--- PESSOA 1 (só nome) ---");
+        DesafioThis p1 = new DesafioThis("Joao");
+        p1.<span class="lacuna"><input type="text" class="lacuna-input" id="d4_6" placeholder="???"></span>();
+
+        System.out.println("\n--- PESSOA 2 (nome e idade) ---");
+        DesafioThis p2 = new <span class="lacuna"><input type="text" class="lacuna-input" id="d4_7" placeholder="???"></span>("Maria", 25);
+        p2.exibirDados();
+
+        System.out.println("\n--- PESSOA 3 (nome, idade e cidade) ---");
+        DesafioThis p3 = <span class="lacuna"><input type="text" class="lacuna-input" id="d4_8" placeholder="???"></span> DesafioThis("Pedro", 30, "Sao Paulo");
+        p3.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="btn" onclick="corrigirD4()">✅ Verificar Respostas</button>
+                <button class="btn btn-secondary" onclick="limparD4()">🔄 Limpar</button>
+            </div>
+
+            <div class="result-box" id="resultado-d4">
+                <h2>📊 Resultado - Desafio 4</h2>
+                <div class="score" id="pontuacao-d4">0/8</div>
+                <p style="margin: 10px 0;">Respostas corretas:</p>
+                <div id="feedback-d4"></div>
+                <div class="gabarito-oculto" id="gabarito-d4">
+                    <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                        🎯 <strong>RESPOSTAS ESPERADAS:</strong>
+                        <ul>
+                            <li><strong>1:</strong> this</li>
+                            <li><strong>2:</strong> this</li>
+                            <li><strong>3:</strong> this</li>
+                            <li><strong>4:</strong> this</li>
+                            <li><strong>5:</strong> this</li>
+                            <li><strong>6:</strong> exibirDados</li>
+                            <li><strong>7:</strong> DesafioThis</li>
+                            <li><strong>8:</strong> new</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>📚 TEMA 08 - Construtores | Atividade de Completar Código</p>
+        <p>🎯 Pratique Construtor Default, Parametrizado, Sobrecarga e this()!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // ============================================================
+    // GABARITO DESAFIO 1 - CONSTRUTOR DEFAULT
+    // ============================================================
+    const gabaritoD1 = {
+        d1_1: 'DesafioDefault',
+        d1_2: 'this',
+        d1_3: 'this',
+        d1_4: 'new'
+    };
+
+    function corrigirD1() {
+        corrigirGenerico(gabaritoD1, 'd1', 'resultado-d1', 'pontuacao-d1', 'feedback-d1', 'gabarito-d1');
+    }
+
+    function limparD1() {
+        limparGenerico(gabaritoD1, 'resultado-d1', 'gabarito-d1');
+    }
+
+    // ============================================================
+    // GABARITO DESAFIO 2 - CONSTRUTOR PARAMETRIZADO
+    // ============================================================
+    const gabaritoD2 = {
+        d2_1: 'DesafioParametrizado',
+        d2_2: 'this',
+        d2_3: 'this',
+        d2_4: 'new'
+    };
+
+    function corrigirD2() {
+        corrigirGenerico(gabaritoD2, 'd2', 'resultado-d2', 'pontuacao-d2', 'feedback-d2', 'gabarito-d2');
+    }
+
+    function limparD2() {
+        limparGenerico(gabaritoD2, 'resultado-d2', 'gabarito-d2');
+    }
+
+    // ============================================================
+    // GABARITO DESAFIO 3 - SOBRECARGA
+    // ============================================================
+    const gabaritoD3 = {
+        d3_1: 'DesafioSobrecarga',
+        d3_2: 'DesafioSobrecarga',
+        d3_3: 'this',
+        d3_4: 'this',
+        d3_5: 'this',
+        d3_6: 'this',
+        d3_7: 'new',
+        d3_8: 'exibirInfo'
+    };
+
+    function corrigirD3() {
+        corrigirGenerico(gabaritoD3, 'd3', 'resultado-d3', 'pontuacao-d3', 'feedback-d3', 'gabarito-d3');
+    }
+
+    function limparD3() {
+        limparGenerico(gabaritoD3, 'resultado-d3', 'gabarito-d3');
+    }
+
+    // ============================================================
+    // GABARITO DESAFIO 4 - THIS()
+    // ============================================================
+    const gabaritoD4 = {
+        d4_1: 'this',
+        d4_2: 'this',
+        d4_3: 'this',
+        d4_4: 'this',
+        d4_5: 'this',
+        d4_6: 'exibirDados',
+        d4_7: 'DesafioThis',
+        d4_8: 'new'
+    };
+
+    function corrigirD4() {
+        corrigirGenerico(gabaritoD4, 'd4', 'resultado-d4', 'pontuacao-d4', 'feedback-d4', 'gabarito-d4');
+    }
+
+    function limparD4() {
+        limparGenerico(gabaritoD4, 'resultado-d4', 'gabarito-d4');
+    }
+
+    // ============================================================
+    // FUNÇÕES GENÉRICAS
+    // ============================================================
+    function corrigirGenerico(gabarito, prefixo, resultadoId, pontuacaoId, feedbackId, gabaritoId) {
+        let acertos = 0;
+        let feedbackHTML = '';
+        const total = Object.keys(gabarito).length;
+
+        for (let [id, resposta] of Object.entries(gabarito)) {
+            const input = document.getElementById(id);
+            const valorUsuario = input.value.trim();
+
+            if (valorUsuario === '') {
+                input.className = 'lacuna-input';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace(prefixo + '_', '')} - Não respondida</div>`;
+                continue;
+            }
+
+            const isCorrect = valorUsuario === resposta;
+
+            if (isCorrect) {
+                acertos++;
+                input.className = 'lacuna-input correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ Lacuna ${id.replace(prefixo + '_', '')} - Correta</div>`;
+            } else {
+                input.className = 'lacuna-input wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ Lacuna ${id.replace(prefixo + '_', '')} - Esperado "${resposta}"</div>`;
+            }
+        }
+
+        document.getElementById(pontuacaoId).textContent = acertos + '/' + total;
+        document.getElementById(feedbackId).innerHTML = feedbackHTML;
+        document.getElementById(resultadoId).classList.add('show');
+        document.getElementById(gabaritoId).classList.add('show');
+
+        if (acertos === total) {
+            document.getElementById(feedbackId).innerHTML += `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    🎉 <strong>PARABÉNS! Você acertou todas!</strong> Excelente domínio dos construtores!
+                </div>
+            `;
+        } else if (acertos >= total * 0.7) {
+            document.getElementById(feedbackId).innerHTML += `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    💪 <strong>Bom trabalho!</strong> Revise apenas as lacunas que errou para fixar melhor.
+                </div>
+            `;
+        } else {
+            document.getElementById(feedbackId).innerHTML += `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal revisar os exemplos novamente?</strong> Pratique os conceitos de construtores!
+                </div>
+            `;
+        }
+
+        document.getElementById(resultadoId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function limparGenerico(gabarito, resultadoId, gabaritoId) {
+        for (let id of Object.keys(gabarito)) {
+            const input = document.getElementById(id);
+            input.value = '';
+            input.className = 'lacuna-input';
+        }
+        document.getElementById(resultadoId).classList.remove('show');
+        document.getElementById(gabaritoId).classList.remove('show');
+    }
+
+    // ============================================================
+    // COPIAR CÓDIGO
+    // ============================================================
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        let textToCopy = codeElement.innerText;
+
+        // Remove os placeholders de input para copiar o código limpo
+        textToCopy = textToCopy.replace(/<input[^>]*>/g, '???');
+
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+
+    // ============================================================
+    // SISTEMA DE ABAS
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+
+                tabLinks.forEach(l => l.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+    });
+</script>
+</body>
+</html>

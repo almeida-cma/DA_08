@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio de Tradução - POO e Construtores | Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            border-left: 5px solid #6a11cb;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #4a0e8a;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .question {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid #6a11cb;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .question-termo {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            min-width: 120px;
+            font-family: 'Consolas', monospace;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .question-exemplo {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+            min-width: 100px;
+        }
+
+        .question-select {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #fafafa;
+            transition: border-color 0.3s;
+        }
+
+        .question-select:focus {
+            border-color: #6a11cb;
+            outline: none;
+            background: white;
+        }
+
+        .question-select.correct {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .question-select.wrong {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(106,17,203,0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #6a11cb;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feedback-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .feedback-item.correct {
+            color: #28a745;
+        }
+
+        .feedback-item.wrong {
+            color: #dc3545;
+        }
+
+        .recompensas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .recompensa-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .recompensa-item.desbloqueado {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .recompensa-item .icone {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .recompensa-item .titulo {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .recompensa-item .descricao {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border-radius: 10px;
+            transition: width 0.5s;
+            width: 0%;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.4rem; }
+            .question { flex-direction: column; align-items: stretch; }
+            .question-termo { text-align: center; }
+            .question-exemplo { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🌍 Desafio de Tradução</h1>
+        <p>POO e Construtores em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 12 palavras</span>
+            <span class="badge">⏱️ ~10 minutos</span>
+            <span class="badge">🏆 Ganhe recompensas</span>
+        </div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="card">
+        <h2>📖 Por que fazer este desafio?</h2>
+        <p>Palavras em inglês aparecem em <strong>todos os códigos</strong> de POO e Construtores em Java.</p>
+        <p>Saber o significado de cada uma ajuda a <strong>entender melhor o código</strong> e a <strong>memorizar</strong> os comandos!</p>
+
+        <div class="highlight info">
+            💡 <strong>Exemplo:</strong> <code>class</code> significa <strong>"classe"</strong> (molde para objetos).<br>
+            <code>constructor</code> significa <strong>"construtor"</strong> (inicializa objetos).<br>
+            <code>this</code> significa <strong>"este"</strong> (refere-se ao próprio objeto).<br>
+            <code>new</code> significa <strong>"novo"</strong> (cria um objeto).
+        </div>
+    </div>
+
+    <!-- PROGRESSO -->
+    <div class="card">
+        <h2>📊 Progresso</h2>
+        <div class="progress-bar">
+            <div class="fill" id="progresso"></div>
+        </div>
+        <p style="text-align: center;" id="texto-progresso">0 / 12 respondidas</p>
+    </div>
+
+    <!-- RECOMPENSAS -->
+    <div class="card">
+        <h2>🏆 Recompensas</h2>
+        <div class="recompensas">
+            <div class="recompensa-item" id="recompensa-1">
+                <div class="icone">⭐</div>
+                <div class="titulo">Iniciante</div>
+                <div class="descricao">Acertar 4 palavras</div>
+            </div>
+            <div class="recompensa-item" id="recompensa-2">
+                <div class="icone">🌟</div>
+                <div class="titulo">Intermediário</div>
+                <div class="descricao">Acertar 8 palavras</div>
+            </div>
+            <div class="recompensa-item" id="recompensa-3">
+                <div class="icone">👑</div>
+                <div class="titulo">Mestre POO</div>
+                <div class="descricao">Acertar todas as 12!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUESTÕES -->
+    <div class="card" id="testes">
+        <h2>✏️ Responda as questões</h2>
+        <p>Selecione o significado correto para cada palavra em inglês:</p>
+
+        <!-- Questão 1 -->
+        <div class="question">
+            <span class="question-termo">class</span>
+            <span class="question-exemplo">Ex: public class Carro</span>
+            <select class="question-select" id="q1">
+                <option value="">Selecione...</option>
+                <option value="objeto">Objeto</option>
+                <option value="classe">Classe</option>
+                <option value="metodo">Método</option>
+                <option value="pacote">Pacote</option>
+            </select>
+        </div>
+
+        <!-- Questão 2 -->
+        <div class="question">
+            <span class="question-termo">object</span>
+            <span class="question-exemplo">Ex: Carro carro = new Carro()</span>
+            <select class="question-select" id="q2">
+                <option value="">Selecione...</option>
+                <option value="classe">Classe</option>
+                <option value="objeto">Objeto</option>
+                <option value="metodo">Método</option>
+                <option value="atributo">Atributo</option>
+            </select>
+        </div>
+
+        <!-- Questão 3 -->
+        <div class="question">
+            <span class="question-termo">constructor</span>
+            <span class="question-exemplo">Ex: public Carro() { }</span>
+            <select class="question-select" id="q3">
+                <option value="">Selecione...</option>
+                <option value="destrutor">Destrutor</option>
+                <option value="construtor">Construtor</option>
+                <option value="metodo">Método</option>
+                <option value="classe">Classe</option>
+            </select>
+        </div>
+
+        <!-- Questão 4 -->
+        <div class="question">
+            <span class="question-termo">this</span>
+            <span class="question-exemplo">Ex: this.nome = nome</span>
+            <select class="question-select" id="q4">
+                <option value="">Selecione...</option>
+                <option value="aquele">Aquele</option>
+                <option value="este">Este</option>
+                <option value="super">Super</option>
+                <option value="novo">Novo</option>
+            </select>
+        </div>
+
+        <!-- Questão 5 -->
+        <div class="question">
+            <span class="question-termo">new</span>
+            <span class="question-exemplo">Ex: new Carro()</span>
+            <select class="question-select" id="q5">
+                <option value="">Selecione...</option>
+                <option value="velho">Velho</option>
+                <option value="novo">Novo</option>
+                <option value="usado">Usado</option>
+                <option value="criar">Criar</option>
+            </select>
+        </div>
+
+        <!-- Questão 6 -->
+        <div class="question">
+            <span class="question-termo">attribute</span>
+            <span class="question-exemplo">Ex: String nome;</span>
+            <select class="question-select" id="q6">
+                <option value="">Selecione...</option>
+                <option value="metodo">Método</option>
+                <option value="atributo">Atributo</option>
+                <option value="classe">Classe</option>
+                <option value="objeto">Objeto</option>
+            </select>
+        </div>
+
+        <!-- Questão 7 -->
+        <div class="question">
+            <span class="question-termo">method</span>
+            <span class="question-exemplo">Ex: public void ligar()</span>
+            <select class="question-select" id="q7">
+                <option value="">Selecione...</option>
+                <option value="metodo">Método</option>
+                <option value="atributo">Atributo</option>
+                <option value="classe">Classe</option>
+                <option value="objeto">Objeto</option>
+            </select>
+        </div>
+
+        <!-- Questão 8 -->
+        <div class="question">
+            <span class="question-termo">encapsulation</span>
+            <span class="question-exemplo">Ex: private String nome;</span>
+            <select class="question-select" id="q8">
+                <option value="">Selecione...</option>
+                <option value="herança">Herança</option>
+                <option value="encapsulamento">Encapsulamento</option>
+                <option value="polimorfismo">Polimorfismo</option>
+                <option value="abstração">Abstração</option>
+            </select>
+        </div>
+
+        <!-- Questão 9 -->
+        <div class="question">
+            <span class="question-termo">inheritance</span>
+            <span class="question-exemplo">Ex: extends Veiculo</span>
+            <select class="question-select" id="q9">
+                <option value="">Selecione...</option>
+                <option value="encapsulamento">Encapsulamento</option>
+                <option value="herança">Herança</option>
+                <option value="polimorfismo">Polimorfismo</option>
+                <option value="abstração">Abstração</option>
+            </select>
+        </div>
+
+        <!-- Questão 10 -->
+        <div class="question">
+            <span class="question-termo">polymorphism</span>
+            <span class="question-exemplo">Ex: Sobrecarga de métodos</span>
+            <select class="question-select" id="q10">
+                <option value="">Selecione...</option>
+                <option value="encapsulamento">Encapsulamento</option>
+                <option value="herança">Herança</option>
+                <option value="polimorfismo">Polimorfismo</option>
+                <option value="abstração">Abstração</option>
+            </select>
+        </div>
+
+        <!-- Questão 11 -->
+        <div class="question">
+            <span class="question-termo">overload</span>
+            <span class="question-exemplo">Ex: vários construtores com parâmetros diferentes</span>
+            <select class="question-select" id="q11">
+                <option value="">Selecione...</option>
+                <option value="sobrecarga">Sobrecarga</option>
+                <option value="sobrescrita">Sobrescrita</option>
+                <option value="herança">Herança</option>
+                <option value="encapsulamento">Encapsulamento</option>
+            </select>
+        </div>
+
+        <!-- Questão 12 -->
+        <div class="question">
+            <span class="question-termo">default</span>
+            <span class="question-exemplo">Ex: construtor padrão sem parâmetros</span>
+            <select class="question-select" id="q12">
+                <option value="">Selecione...</option>
+                <option value="personalizado">Personalizado</option>
+                <option value="padrão">Padrão</option>
+                <option value="privado">Privado</option>
+                <option value="publico">Público</option>
+            </select>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn" onclick="corrigirTraducoes()">✅ Verificar Respostas</button>
+            <button class="btn btn-secondary" onclick="limparRespostas()">🔄 Limpar</button>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="card result-box" id="resultado">
+        <h2>📊 Resultado do Desafio</h2>
+        <div class="score" id="pontuacao">0 / 12</div>
+        <p style="margin: 10px 0;">Acertos por palavra:</p>
+        <div id="feedback"></div>
+
+        <div style="margin-top: 20px;">
+            <button class="btn btn-success" onclick="window.print()">🖨️ Salvar como PDF (Print)</button>
+        </div>
+        <div class="highlight info" style="margin-top: 15px;">
+            📸 <strong>IMPORTANTE:</strong> Salve esta página como PDF (Ctrl+P → Salvar como PDF) para registrar seu progresso!
+        </div>
+    </div>
+
+    <!-- DICIONÁRIO -->
+    <div class="card">
+        <h2>📚 Dicionário - POO e Construtores</h2>
+        <p>Consulte sempre que tiver dúvida sobre o significado de uma palavra:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-top: 15px;">
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>class</strong></code> → Classe (molde para objetos)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>object</strong></code> → Objeto (instância da classe)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>constructor</strong></code> → Construtor (inicializa objetos)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>this</strong></code> → Este (refere-se ao próprio objeto)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>new</strong></code> → Novo (cria um objeto)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>attribute</strong></code> → Atributo (característica do objeto)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>method</strong></code> → Método (ação do objeto)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>encapsulation</strong></code> → Encapsulamento (protege dados)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>inheritance</strong></code> → Herança (compartilha atributos)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>polymorphism</strong></code> → Polimorfismo (mesma palavra, diferentes significados)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>overload</strong></code> → Sobrecarga (vários métodos com mesmo nome)
+            </div>
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 10px;">
+                <code><strong>default</strong></code> → Padrão (construtor sem parâmetros)
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER COM FORMULÁRIO -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> dos desafios + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java8</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 07 e 08 - POO e Construtores | Desafio de Tradução</p>
+        <p style="color: #1a1a2e;">🎯 Aprenda o significado das palavras em inglês usadas em POO!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // GABARITO OFICIAL
+    const gabarito = {
+        q1: { resposta: "classe", palavra: "class", traducao: "Classe" },
+        q2: { resposta: "objeto", palavra: "object", traducao: "Objeto" },
+        q3: { resposta: "construtor", palavra: "constructor", traducao: "Construtor" },
+        q4: { resposta: "este", palavra: "this", traducao: "Este" },
+        q5: { resposta: "novo", palavra: "new", traducao: "Novo" },
+        q6: { resposta: "atributo", palavra: "attribute", traducao: "Atributo" },
+        q7: { resposta: "metodo", palavra: "method", traducao: "Método" },
+        q8: { resposta: "encapsulamento", palavra: "encapsulation", traducao: "Encapsulamento" },
+        q9: { resposta: "herança", palavra: "inheritance", traducao: "Herança" },
+        q10: { resposta: "polimorfismo", palavra: "polymorphism", traducao: "Polimorfismo" },
+        q11: { resposta: "sobrecarga", palavra: "overload", traducao: "Sobrecarga" },
+        q12: { resposta: "padrão", palavra: "default", traducao: "Padrão" }
+    };
+
+    function corrigirTraducoes() {
+        let acertos = 0;
+        let feedbackHTML = '';
+
+        for (let [id, gab] of Object.entries(gabarito)) {
+            const select = document.getElementById(id);
+            const respostaUsuario = select.value;
+
+            if (!respostaUsuario) {
+                select.style.borderColor = '#ffc107';
+                select.style.background = '#fff3cd';
+                feedbackHTML += `<div class="feedback-item wrong">❌ ${gab.palavra} → Não respondida</div>`;
+                continue;
+            }
+
+            const isCorrect = respostaUsuario === gab.resposta;
+
+            if (isCorrect) {
+                acertos++;
+                select.className = 'question-select correct';
+                feedbackHTML += `<div class="feedback-item correct">✅ ${gab.palavra} → ${gab.traducao}</div>`;
+            } else {
+                select.className = 'question-select wrong';
+                feedbackHTML += `<div class="feedback-item wrong">❌ ${gab.palavra} → Você respondeu "${select.options[select.selectedIndex].text}", correto é "${gab.traducao}"</div>`;
+            }
+        }
+
+        const total = Object.keys(gabarito).length;
+        document.getElementById('progresso').style.width = (acertos / total * 100) + '%';
+        document.getElementById('texto-progresso').textContent = acertos + ' / ' + total + ' respondidas';
+
+        document.getElementById('pontuacao').textContent = acertos + ' / ' + total;
+        document.getElementById('feedback').innerHTML = feedbackHTML;
+        document.getElementById('resultado').classList.add('show');
+
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        atualizarRecompensas(acertos);
+
+        let mensagem = '';
+        if (acertos === total) {
+            mensagem = `
+                <div class="highlight success" style="margin-top: 15px; text-align: left;">
+                    👑 <strong>PARABÉNS! VOCÊ É UM MESTRE POO!</strong><br>
+                    Você acertou todas as palavras! Agora você entende o significado de cada comando em POO!
+                </div>
+            `;
+        } else if (acertos >= 8) {
+            mensagem = `
+                <div class="highlight tip" style="margin-top: 15px; text-align: left;">
+                    🌟 <strong>Bom trabalho!</strong> Você já conhece a maioria das palavras. Revise as que errou para fixar!
+                </div>
+            `;
+        } else if (acertos >= 4) {
+            mensagem = `
+                <div class="highlight info" style="margin-top: 15px; text-align: left;">
+                    ⭐ <strong>Continue praticando!</strong> Você já sabe algumas palavras. Consulte o dicionário para aprender as outras!
+                </div>
+            `;
+        } else {
+            mensagem = `
+                <div class="highlight warning" style="margin-top: 15px; text-align: left;">
+                    📚 <strong>Que tal estudar um pouco mais?</strong> Consulte o dicionário abaixo e tente novamente!
+                </div>
+            `;
+        }
+        document.getElementById('feedback').innerHTML += mensagem;
+    }
+
+    function atualizarRecompensas(acertos) {
+        const r1 = document.getElementById('recompensa-1');
+        const r2 = document.getElementById('recompensa-2');
+        const r3 = document.getElementById('recompensa-3');
+
+        if (acertos >= 4) {
+            r1.classList.add('desbloqueado');
+        } else {
+            r1.classList.remove('desbloqueado');
+        }
+
+        if (acertos >= 8) {
+            r2.classList.add('desbloqueado');
+        } else {
+            r2.classList.remove('desbloqueado');
+        }
+
+        if (acertos >= 12) {
+            r3.classList.add('desbloqueado');
+        } else {
+            r3.classList.remove('desbloqueado');
+        }
+    }
+
+    function limparRespostas() {
+        const selects = document.querySelectorAll('.question-select');
+        selects.forEach(select => {
+            select.value = '';
+            select.className = 'question-select';
+            select.style.borderColor = '';
+            select.style.background = '';
+        });
+
+        document.getElementById('progresso').style.width = '0%';
+        document.getElementById('texto-progresso').textContent = '0 / 12 respondidas';
+        document.getElementById('resultado').classList.remove('show');
+
+        ['recompensa-1', 'recompensa-2', 'recompensa-3'].forEach(id => {
+            document.getElementById(id).classList.remove('desbloqueado');
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

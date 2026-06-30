@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sugestões de Resolução - Construtores | Java</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 40px;
+        }
+
+        .tab-link {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .tab-link:hover {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .tab-link.active {
+            background: #6a11cb;
+        }
+
+        .card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            border-left: 5px solid #6a11cb;
+            padding-left: 15px;
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            color: #4a0e8a;
+            margin: 18px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card h4 {
+            color: #2c5364;
+            margin: 12px 0 8px 0;
+            font-size: 1rem;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid #6a11cb;
+            font-size: 0.95rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #6a11cb;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            position: relative;
+            background: #1e1e2e;
+            color: #c9d1d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 3px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #4a0e8a;
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .highlight {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #17a2b8;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .exemplo-saida {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .btn-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            border-radius: 18px;
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: #1a1a2e;
+        }
+
+        .form-box {
+            background: #e7f3ff;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #2196f3;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .form-box a {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+
+        .icon-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #1a1a2e;
+        }
+
+        .delivery-box {
+            background: #d4edda;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 15px auto;
+            border-left: 4px solid #28a745;
+            max-width: 800px;
+            text-align: left;
+        }
+
+        .delivery-box code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .delivery-box .icon-text {
+            color: #155724;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        hr {
+            margin: 15px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .triade-box {
+            background: #f3e8ff;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            border: 2px solid #6a11cb;
+        }
+
+        .triade-box strong {
+            color: #4a0e8a;
+        }
+
+        @media (max-width: 768px) {
+            .card { padding: 18px; }
+            .header h1 { font-size: 1.3rem; }
+            .tab-link { padding: 6px 12px; font-size: 0.7rem; }
+            .header { padding: 25px; }
+            .footer { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🏆 Sugestões de Resolução</h1>
+        <p>Desafios - Construtores em Java</p>
+        <div class="badge-group">
+            <span class="badge">📝 3 desafios</span>
+            <span class="badge">📋 Códigos prontos</span>
+            <span class="badge">📋 Copiar e colar</span>
+        </div>
+    </div>
+
+    <!-- NAVEGAÇÃO -->
+    <div class="nav-tabs">
+        <button class="tab-link active" data-tab="d1">🧩 DESAFIO 1</button>
+        <button class="tab-link" data-tab="d2">🧩 DESAFIO 2</button>
+        <button class="tab-link" data-tab="d3">🧩 DESAFIO 3</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 1: LIVRO -->
+    <!-- ============================================================ -->
+    <div id="d1" class="tab-content active">
+        <div class="card">
+            <h2>🧩 Desafio 1: Classe Livro com Construtores</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioLivro.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos: <code>titulo</code>, <code>autor</code>, <code>ano</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> 3 construtores: default, com título, com título e autor
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método: <code>exibirInfo()</code>
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Construtores sobrecarregados para diferentes formas de criar um livro.</li>
+                    <li><strong>OBJETIVO:</strong> Permitir criar livro com título, com título+autor, ou sem informações.</li>
+                    <li><strong>MÉTODO:</strong> Atributos recebem valores padrão quando não fornecidos.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- LIVRO 1 (default) ---<br>
+Título: Desconhecido<br>
+Autor: Desconhecido<br>
+Ano: 0<br>
+<br>
+--- LIVRO 2 (com título) ---<br>
+Título: Java para Iniciantes<br>
+Autor: Desconhecido<br>
+Ano: 0<br>
+<br>
+--- LIVRO 3 (com título e autor) ---<br>
+Título: POO em Java<br>
+Autor: Maria Silva<br>
+Ano: 0
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d1')">📋 Copiar</button>
+                <pre id="code-d1"><code>package tema08;
+
+public class DesafioLivro {
+    // ATRIBUTOS
+    String titulo;
+    String autor;
+    int ano;
+
+    // CONSTRUTOR 1: default
+    public DesafioLivro() {
+        this.titulo = "Desconhecido";
+        this.autor = "Desconhecido";
+        this.ano = 0;
+    }
+
+    // CONSTRUTOR 2: com título
+    public DesafioLivro(String titulo) {
+        this.titulo = titulo;
+        this.autor = "Desconhecido";
+        this.ano = 0;
+    }
+
+    // CONSTRUTOR 3: com título e autor
+    public DesafioLivro(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.ano = 0;
+    }
+
+    // MÉTODO para exibir informações
+    public void exibirInfo() {
+        System.out.println("Título: " + titulo);
+        System.out.println("Autor: " + autor);
+        System.out.println("Ano: " + ano);
+    }
+
+    // MAIN para teste
+    public static void main(String[] args) {
+        System.out.println("--- LIVRO 1 (default) ---");
+        DesafioLivro livro1 = new DesafioLivro();
+        livro1.exibirInfo();
+
+        System.out.println("\n--- LIVRO 2 (com título) ---");
+        DesafioLivro livro2 = new DesafioLivro("Java para Iniciantes");
+        livro2.exibirInfo();
+
+        System.out.println("\n--- LIVRO 3 (com título e autor) ---");
+        DesafioLivro livro3 = new DesafioLivro("POO em Java", "Maria Silva");
+        livro3.exibirInfo();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ <strong>Sobrecarga</strong> de construtores</li>
+                    <li>✅ Construtor <strong>default</strong> sem parâmetros</li>
+                    <li>✅ Construtores com <strong>parâmetros</strong> diferentes</li>
+                    <li>✅ Valores <strong>padrão</strong> para atributos não informados</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 2: RETANGULO -->
+    <!-- ============================================================ -->
+    <div id="d2" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 2: Classe Retangulo com Construtores</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioRetangulo.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos: <code>largura</code>, <code>altura</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> 2 construtores: default (1x1) e parametrizado
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Métodos: <code>calcularArea()</code>, <code>calcularPerimetro()</code>, <code>exibirInfo()</code>
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> Construtor default e parametrizado para retângulos.</li>
+                    <li><strong>OBJETIVO:</strong> Criar retângulo com tamanhos padrão ou personalizados.</li>
+                    <li><strong>MÉTODO:</strong> Construtor default define 1x1, parametrizado recebe valores.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- RETANGULO 1 (default) ---<br>
+Largura: 1.0, Altura: 1.0<br>
+Área: 1.0, Perímetro: 4.0<br>
+<br>
+--- RETANGULO 2 (parametrizado) ---<br>
+Largura: 5.0, Altura: 3.0<br>
+Área: 15.0, Perímetro: 16.0
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d2')">📋 Copiar</button>
+                <pre id="code-d2"><code>package tema08;
+
+public class DesafioRetangulo {
+    // ATRIBUTOS
+    double largura;
+    double altura;
+
+    // CONSTRUTOR 1: default (1x1)
+    public DesafioRetangulo() {
+        this.largura = 1.0;
+        this.altura = 1.0;
+    }
+
+    // CONSTRUTOR 2: parametrizado
+    public DesafioRetangulo(double largura, double altura) {
+        this.largura = largura;
+        this.altura = altura;
+    }
+
+    // MÉTODO para calcular área
+    public double calcularArea() {
+        return largura * altura;
+    }
+
+    // MÉTODO para calcular perímetro
+    public double calcularPerimetro() {
+        return 2 * (largura + altura);
+    }
+
+    // MÉTODO para exibir informações
+    public void exibirInfo() {
+        System.out.println("Largura: " + largura + ", Altura: " + altura);
+        System.out.println("Área: " + calcularArea() + ", Perímetro: " + calcularPerimetro());
+    }
+
+    // MAIN para teste
+    public static void main(String[] args) {
+        System.out.println("--- RETANGULO 1 (default) ---");
+        DesafioRetangulo r1 = new DesafioRetangulo();
+        r1.exibirInfo();
+
+        System.out.println("\n--- RETANGULO 2 (parametrizado) ---");
+        DesafioRetangulo r2 = new DesafioRetangulo(5.0, 3.0);
+        r2.exibirInfo();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ Construtor <strong>default</strong> com valores padrão</li>
+                    <li>✅ Construtor <strong>parametrizado</strong> para personalização</li>
+                    <li>✅ Métodos de <strong>cálculo</strong> (área e perímetro)</li>
+                    <li>✅ <strong>Encapsulamento</strong> de funcionalidades</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- DESAFIO 3: PESSOA COM THIS() -->
+    <!-- ============================================================ -->
+    <div id="d3" class="tab-content">
+        <div class="card">
+            <h2>🧩 Desafio 3: Classe Pessoa com this()</h2>
+
+            <div class="step">
+                <span class="step-number">📌</span> <strong>Classe:</strong> <code>DesafioPessoa.java</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Atributos: <code>nome</code>, <code>idade</code>, <code>cidade</code>
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> 3 construtores usando <code>this()</code> para reaproveitar código
+            </div>
+            <div class="step">
+                <span class="step-number">📌</span> Método: <code>exibirDados()</code>
+            </div>
+
+            <div class="triade-box">
+                <strong>📚 TRÍADE DIDÁTICA:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li><strong>CONCEITO:</strong> <code>this()</code> chama outro construtor da mesma classe.</li>
+                    <li><strong>OBJETIVO:</strong> Reaproveitar código e evitar repetição.</li>
+                    <li><strong>MÉTODO:</strong> Construtores menores chamam o construtor principal com valores padrão.</li>
+                </ul>
+            </div>
+
+            <div class="exemplo-saida">
+📤 Saída esperada:<br>
+--- PESSOA 1 (so nome) ---<br>
+Nome: Joao, Idade: 0, Cidade: Nao informada<br>
+<br>
+--- PESSOA 2 (nome e idade) ---<br>
+Nome: Maria, Idade: 25, Cidade: Nao informada<br>
+<br>
+--- PESSOA 3 (nome, idade e cidade) ---<br>
+Nome: Pedro, Idade: 30, Cidade: Sao Paulo
+            </div>
+
+            <h3 style="margin-top: 20px;">📝 Código Sugerido:</h3>
+            <div class="code-block">
+                <button class="copy-btn" onclick="copyCode(this, 'code-d3')">📋 Copiar</button>
+                <pre id="code-d3"><code>package tema08;
+
+public class DesafioPessoa {
+    // ATRIBUTOS
+    String nome;
+    int idade;
+    String cidade;
+
+    // CONSTRUTOR 1: com nome (usa this() para chamar o construtor 3)
+    public DesafioPessoa(String nome) {
+        this(nome, 0, "Nao informada");
+    }
+
+    // CONSTRUTOR 2: com nome e idade (usa this() para chamar o construtor 3)
+    public DesafioPessoa(String nome, int idade) {
+        this(nome, idade, "Nao informada");
+    }
+
+    // CONSTRUTOR 3: com nome, idade e cidade (construtor principal)
+    public DesafioPessoa(String nome, int idade, String cidade) {
+        this.nome = nome;
+        this.idade = idade;
+        this.cidade = cidade;
+    }
+
+    // MÉTODO para exibir dados
+    public void exibirDados() {
+        System.out.println("Nome: " + nome + ", Idade: " + idade + ", Cidade: " + cidade);
+    }
+
+    // MAIN para teste
+    public static void main(String[] args) {
+        System.out.println("--- PESSOA 1 (so nome) ---");
+        DesafioPessoa p1 = new DesafioPessoa("Joao");
+        p1.exibirDados();
+
+        System.out.println("\n--- PESSOA 2 (nome e idade) ---");
+        DesafioPessoa p2 = new DesafioPessoa("Maria", 25);
+        p2.exibirDados();
+
+        System.out.println("\n--- PESSOA 3 (nome, idade e cidade) ---");
+        DesafioPessoa p3 = new DesafioPessoa("Pedro", 30, "Sao Paulo");
+        p3.exibirDados();
+    }
+}</code></pre>
+            </div>
+
+            <div class="highlight success">
+                🎯 <strong>O QUE FOI APRENDIDO:</strong>
+                <ul style="margin-left: 20px; margin-top: 8px;">
+                    <li>✅ Uso de <code>this()</code> para <strong>reaproveitar</strong> construtores</li>
+                    <li>✅ Construtor <strong>principal</strong> que recebe todos os atributos</li>
+                    <li>✅ Construtores <strong>secundários</strong> com valores padrão</li>
+                    <li>✅ <strong>Reutilização</strong> de código e redução de duplicação</li>
+                </ul>
+            </div>
+
+            <div class="highlight tip">
+                💡 <strong>DICA IMPORTANTE:</strong> <code>this()</code> deve ser a <strong>primeira instrução</strong> dentro do construtor!
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHECKLIST E INSTRUÇÕES -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2>📋 Instruções de Entrega</h2>
+
+        <div class="step">
+            <span class="step-number">📁</span> Crie cada classe no pacote <strong>tema08</strong> do projeto <strong>Tema08Construtores</strong>
+        </div>
+        <div class="step">
+            <span class="step-number">📁</span> Copie e cole o código sugerido para cada desafio
+        </div>
+        <div class="step">
+            <span class="step-number">▶️</span> Execute cada classe com <strong>Run File</strong> (Shift + F6)
+        </div>
+
+        <h3 style="margin-top: 20px;">✅ Checklist de Entrega</h3>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check1">
+            <label for="check1"><code>DesafioLivro.java</code> - Classe Livro com construtores</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check2">
+            <label for="check2"><code>DesafioRetangulo.java</code> - Classe Retangulo com construtores</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check3">
+            <label for="check3"><code>DesafioPessoa.java</code> - Classe Pessoa com this()</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check4">
+            <label for="check4">📸 Tirei print do <strong>código</strong> de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check5">
+            <label for="check5">📸 Tirei print do <strong>resultado</strong> (saída no console) de cada desafio</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="check6">
+            <label for="check6">📤 Salvei os arquivos no repositório <strong>java8</strong></label>
+        </div>
+
+        <div class="highlight success" style="margin-top: 15px;">
+            📤 <strong>Entregar:</strong> Prints do código e resultado de cada desafio + link do repositório <strong>java8</strong>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER COM FORMULÁRIO -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="form-box">
+            <div class="icon-text">📋</div>
+            <strong style="color: #1a1a2e;">Formulário para entrega das atividades e relatório da aula:</strong><br>
+            <a href="https://forms.gle/zbUB57A4FteUDsKSA" target="_blank">https://forms.gle/zbUB57A4FteUDsKSA</a>
+        </div>
+
+        <div class="delivery-box">
+            <div class="icon-text">📤</div>
+            <strong style="color: #155724;">ENTREGA:</strong><br>
+            <span style="color: #155724;">Prints do <strong>código</strong> e <strong>resultado</strong> de cada desafio + link do repositório <code style="background: white; padding: 2px 8px; border-radius: 4px; color: #28a745;">java8</code></span>
+        </div>
+
+        <hr>
+
+        <p style="color: #1a1a2e;">📚 TEMA 08 - Construtores | Desafios de Construtores</p>
+        <p style="color: #1a1a2e;">🎯 Pratique cada desafio e consulte as resoluções para fixar o aprendizado!</p>
+    </div>
+</div>
+
+<button class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Topo</button>
+
+<script>
+    // Sistema de abas
+    const tabLinks = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const tabId = link.getAttribute('data-tab');
+            tabLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Função de copiar código
+    function copyCode(btn, elementId) {
+        const codeElement = document.getElementById(elementId);
+        const textToCopy = codeElement.innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(() => {
+            btn.innerHTML = '❌ Erro';
+            setTimeout(() => btn.innerHTML = '📋 Copiar', 2000);
+        });
+    }
+</script>
+</body>
+</html>
